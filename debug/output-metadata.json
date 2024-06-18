@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "de.androidcrypto.desfiretutorial",
+  "applicationId": "de.androidcrypto.desfirechangemasterappkey",
   "variantName": "debug",
   "elements": [
     {
@@ -16,5 +16,6 @@
       "outputFile": "app-debug.apk"
     }
   ],
-  "elementType": "File"
+  "elementType": "File",
+  "minSdkVersionForDexing": 21
 }
