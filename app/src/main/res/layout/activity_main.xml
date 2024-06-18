@@ -31,9 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="This app is using the DESFire for Android library"
+                android:text="This app is using the DESFire for Android library and changes the Master Application Key from Default DES to Default AES type or from AES to DES."
                 android:textAlignment="center"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -41,9 +41,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:hint="operation output"
                 app:boxCornerRadiusBottomEnd="5dp"
                 app:boxCornerRadiusBottomStart="5dp"
@@ -68,9 +68,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:hint="error code"
                 app:boxCornerRadiusBottomEnd="5dp"
                 app:boxCornerRadiusBottomStart="5dp"
@@ -90,59 +90,36 @@
                     tools:ignore="KeyboardInaccessibleWidget" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etSelectedApplicationIdLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbChangeKeyTypeToAes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:hint="selected application"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_weight="1"
+                android:checked="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="Change Key Type to AES" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSelectedApplicationId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:focusable="false"
-                    android:text="select an application ..."
-                    tools:ignore="KeyboardInaccessibleWidget" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etSelectedFileIdLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <RadioButton
+                android:id="@+id/rbChangeKeyTypeToDes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:hint="selected file id"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_weight="1"
+                android:checked="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="Change Key Type to DES" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSelectedFileId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:focusable="false"
-                    android:text="select a file ..."
-                    tools:ignore="KeyboardInaccessibleWidget" />
-            </com.google.android.material.textfield.TextInputLayout>
+        </RadioGroup>
 
             <TextView
                 android:id="@+id/tvInformationNoTag"
@@ -153,7 +130,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/share_rounded_corner_light_red_with_border_error"
                 android:padding="4dp"
-                android:text="Tap a tag to the NFC-reader to enable all commands"
+                android:text="Warning: tapping a tag to the NFC-reader will immediately run the change without any further confirmation"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 android:textStyle="normal"

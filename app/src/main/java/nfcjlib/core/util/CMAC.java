@@ -1,6 +1,6 @@
 package nfcjlib.core.util;
 
-import de.androidcrypto.desfiretutorial.Utils;
+import de.androidcrypto.desfirechangemasterappkey.Utils;
 
 /**
  * CMAC implementation according to NIST 800-38B.

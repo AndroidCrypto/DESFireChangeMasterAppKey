@@ -1,4 +1,4 @@
-package de.androidcrypto.desfiretutorial;
+package de.androidcrypto.desfirechangemasterappkey;
 
 import org.junit.Test;
 

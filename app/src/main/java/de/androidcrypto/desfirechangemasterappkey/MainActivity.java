@@ -1,4 +1,4 @@
-package de.androidcrypto.desfiretutorial;
+package de.androidcrypto.desfirechangemasterappkey;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
     private com.google.android.material.textfield.TextInputEditText output, errorCode;
     private com.google.android.material.textfield.TextInputLayout errorCodeLayout;
+    private RadioButton changeMasterAppKeyToAes, changeMasterAppKeyToDes;
     private ScrollView scrollView;
     private TextView noTagInformation;
 
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
      */
     private LinearLayout llApplicationHandling;
     private Button applicationCreate, applicationSelect, applicationDelete;
-    private com.google.android.material.textfield.TextInputEditText numberOfKeys, applicationId, applicationSelected;
+    private com.google.android.material.textfield.TextInputEditText numberOfKeys, applicationId;
     private RadioButton rbApplicationKeyTypeDes, rbApplicationKeyTypeAes;
     private byte[] selectedApplicationId = null;
 
@@ -90,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
     private Button fileSelect, fileDelete, getFileSettings;
 
-    private com.google.android.material.textfield.TextInputEditText fileSelected;
     private String selectedFileId = "";
     private int selectedFileIdInt = -1;
     private int selectedFileSize;
@@ -161,6 +161,10 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         output = findViewById(R.id.etOutput);
         errorCode = findViewById(R.id.etErrorCode);
         errorCodeLayout = findViewById(R.id.etErrorCodeLayout);
+
+        changeMasterAppKeyToAes = findViewById(R.id.rbChangeKeyTypeToAes);
+        changeMasterAppKeyToDes = findViewById(R.id.rbChangeKeyTypeToDes);
+
         scrollView = findViewById(R.id.svScrollView);
         noTagInformation = findViewById(R.id.tvInformationNoTag);
 
@@ -181,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         applicationCreate = findViewById(R.id.btnCreateApplication);
         applicationSelect = findViewById(R.id.btnSelectApplication);
         applicationDelete = findViewById(R.id.btnDeleteApplication);
-        applicationSelected = findViewById(R.id.etSelectedApplicationId);
+
         numberOfKeys = findViewById(R.id.etNumberOfKeys);
         applicationId = findViewById(R.id.etApplicationId);
         rbApplicationKeyTypeDes = findViewById(R.id.rbApplicationKeyTypeDes);
@@ -205,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         rbFileStandardEncryptedCommunication = findViewById(R.id.rbFileStandardEncryptedCommunication);
         fileSize = findViewById(R.id.etFileStandardSize);
         fileData = findViewById(R.id.etFileStandardData);
-        fileSelected = findViewById(R.id.etSelectedFileId);
 
         // authentication handling DES default keys
         llAuthentication2 = findViewById(R.id.llAuthentication2);
@@ -417,9 +420,9 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                     } else {
                                         writeToUiAppendBorderColor(errorCode, errorCodeLayout, "formatPicc success", COLOR_GREEN);
                                         selectedFileId = "";
-                                        fileSelected.setText("");
+                                        //fileSelected.setText("");
                                         selectedApplicationId = null;
-                                        applicationSelected.setText("");
+                                        //applicationSelected.setText("");
                                         scrollView.smoothScrollTo(0, 0);
                                     }
                                 } catch (IOException e) {
@@ -476,10 +479,10 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                         scrollView.smoothScrollTo(0, 0);
                         return;
                     } else {
-                        applicationSelected.setText("000000");
+                        //applicationSelected.setText("000000");
                         selectedApplicationId = new byte[3]; // 00 00 00
                         selectedFileId = "";
-                        fileSelected.setText("");
+                        //fileSelected.setText("");
                         writeToUiAppendBorderColor(errorCode, errorCodeLayout, logString + ": " + success, COLOR_GREEN);
                         scrollView.smoothScrollTo(0, 0);
                     }
@@ -634,9 +637,9 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                         writeToUiAppend(output, logString + " Result: " + dfSelectApplication);
                         if (dfSelectApplication) {
                             selectedApplicationId = Utils.hexStringToByteArray(applicationList[which]);
-                            applicationSelected.setText(applicationList[which] + " (max " + maxKeys + " keys of " + desfireKeyTypeString + " type)");
+                            //applicationSelected.setText(applicationList[which] + " (max " + maxKeys + " keys of " + desfireKeyTypeString + " type)");
                             selectedFileId = "";
-                            fileSelected.setText("");
+                            //fileSelected.setText("");
                             writeToUiAppendBorderColor(errorCode, errorCodeLayout, logString + " Result: " + dfSelectApplication, COLOR_GREEN);
                             scrollView.smoothScrollTo(0, 0);
                         } else {
@@ -688,10 +691,10 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                         return;
                                     } else {
                                         writeToUiAppendBorderColor(errorCode, errorCodeLayout, logString + " success", COLOR_GREEN);
-                                        applicationSelected.setText("");
+                                        //applicationSelected.setText("");
                                         selectedApplicationId = null;
                                         selectedFileId = "";
-                                        fileSelected.setText("");
+                                        //fileSelected.setText("");
                                         scrollView.smoothScrollTo(0, 0);
                                     }
                                 } catch (IOException e) {
@@ -808,7 +811,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                         String csDescription = desfireFile.getCommunicationSettings().getDescription();
                         System.out.println("read: " + readAccessKey + " write " + writeAccessKey + " comm: " + csDescription);
 
-                        fileSelected.setText(fileList[which]);
+                        //fileSelected.setText(fileList[which]);
                         writeToUiAppendBorderColor(errorCode, errorCodeLayout, "file selected", COLOR_GREEN);
                         scrollView.smoothScrollTo(0, 0);
                     }
@@ -848,7 +851,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                                         return;
                                     } else {
                                         writeToUiAppendBorderColor(errorCode, errorCodeLayout, "deleteFile success", COLOR_GREEN);
-                                        fileSelected.setText("");
+                                        //fileSelected.setText("");
                                         selectedFileId = null;
                                         scrollView.smoothScrollTo(0, 0);
                                     }
@@ -1375,6 +1378,104 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
     }
 
+    private void runChangeMasterKeys() {
+
+        System.out.println("runChangeMasterKeys");
+
+
+        Thread worker = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean success;
+                try {
+                    // select master application
+                    success = desfire.selectApplication(MASTER_APPLICATION_IDENTIFIER);
+                    writeToUiAppend(output, "selectMasterApplicationSuccess: " + success);
+                    if (!success) {
+                        writeToUiAppend(output, "selectMasterApplication NOT Success, aborted");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "selectMasterApplication NOT Success, aborted", COLOR_RED);
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                } catch (IOException e) {
+                    writeToUiAppendBorderColor(errorCode, errorCodeLayout, "IOException: " + e.getMessage(), COLOR_RED);
+                    e.printStackTrace();
+                    scrollView.smoothScrollTo(0, 0);
+                    return;
+                } catch (Exception e) {
+                    writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Exception: " + e.getMessage(), COLOR_RED);
+                    writeToUiAppend(errorCode, "Stack: " + Arrays.toString(e.getStackTrace()));
+                    e.printStackTrace();
+                    scrollView.smoothScrollTo(0, 0);
+                    return;
+                }
+                if (changeMasterAppKeyToAes.isChecked()) {
+                    // authenticate with default DES key
+                    success = authenticateApplication((byte) 0, new byte[8], "Default DES Key", KeyType.DES);
+                    writeToUiAppend(output, "Authenticate with Default DES Key: " + success);
+                    if (!success) {
+                        writeToUiAppend(output, "Authentication NOT Success, aborted");
+                        writeToUiAppend(output, "Maybe the Master Application Key was changed or is DES Key ?");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Authentication NOT Success, aborted", COLOR_RED);
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                    // change key to AES
+                    try {
+                        success = desfire.changeKey((byte) 0x00, KeyType.AES, new byte[16], new byte[8]);
+                    } catch (IOException e) {
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "IOException: " + e.getMessage(), COLOR_RED);
+                        e.printStackTrace();
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                    if (success) {
+                        writeToUiAppend(output, "Change of the Master Application Key to AES was Success");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Change of the Master Application Key was Success", COLOR_GREEN);
+                        scrollView.smoothScrollTo(0, 0);
+                    } else {
+                        writeToUiAppend(output, "Change of the Master Application Key to AES was NOT Success, aborted");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Change of the Master Application Key was NOT Success, aborted", COLOR_RED);
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                } else {
+                    // authenticate with default AES key
+                    success = authenticateApplication((byte) 0, new byte[16], "Default AES Key", KeyType.AES);
+                    writeToUiAppend(output, "Authenticate with Default DES Key: " + success);
+                    if (!success) {
+                        writeToUiAppend(output, "Authentication NOT Success, aborted");
+                        writeToUiAppend(output, "Maybe the Master Application Key was changed or is AES Key ?");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Authentication NOT Success, aborted", COLOR_RED);
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                    // change key to DES
+                    try {
+                        success = desfire.changeKey((byte) 0x00, KeyType.DES, new byte[8], new byte[16]);
+                    } catch (IOException e) {
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "IOException: " + e.getMessage(), COLOR_RED);
+                        e.printStackTrace();
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                    if (success) {
+                        writeToUiAppend(output, "Change of the Master Application Key to DES was Success");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Change of the Master Application Key was Success", COLOR_GREEN);
+                        scrollView.smoothScrollTo(0, 0);
+                    } else {
+                        writeToUiAppend(output, "Change of the Master Application Key to DES was NOT Success, aborted");
+                        writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Change of the Master Application Key was NOT Success, aborted", COLOR_RED);
+                        scrollView.smoothScrollTo(0, 0);
+                        return;
+                    }
+                }
+            }
+        });
+        worker.start();
+    }
+
+
     /**
      * section for UI helper methods to shorten the code
      */
@@ -1430,10 +1531,8 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         writeToUiAppend(output, keyType.toString() + " authentication with key " + String.format("0x%02X", keyNumber) + "(= " + keyName + "access key)");
         try {
             boolean authApp = desfire.authenticate(key, keyNumber, keyType);
-            writeToUiAppend(output, "authApplicationResult: " + authApp);
             if (!authApp) {
                 writeToUiAppendBorderColor(errorCode, errorCodeLayout, "authenticateApplication NOT Success, aborted", COLOR_RED);
-                writeToUiAppend(errorCode, "authenticateApplication NOT Success: " + desfire.getCode() + ":" + String.format("0x%02X", desfire.getCode()) + ":" + desfire.getCodeDesc());
                 return false;
             } else {
                 writeToUiAppendBorderColor(errorCode, errorCodeLayout, "authenticateApplication SUCCESS", COLOR_GREEN);
@@ -1448,7 +1547,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         } catch (Exception e) {
             writeToUiAppendBorderColor(errorCode, errorCodeLayout, "Exception: " + e.getMessage(), COLOR_RED);
             writeToUiAppend(errorCode, "Stack: " + Arrays.toString(e.getStackTrace()));
-            //writeToUiAppend(output, "IOException: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -1469,13 +1567,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
         try {
             isoDep = IsoDep.get(tag);
             if (isoDep != null) {
-                /*
-                runOnUiThread(() -> {
-                    Toast.makeText(getApplicationContext(),
-                            "NFC tag is IsoDep compatible",
-                            Toast.LENGTH_SHORT).show();
-                });
-                 */
 
                 // Make a Sound
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -1501,6 +1592,23 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                 desfire = new DESFireEV1();
                 desfire.setAdapter(desFireAdapter);
 
+                /**
+                 * Depending on the change key this happens:
+                 *
+                 * If "change key type to AES" is checked:
+                 * - Select Master Application
+                 * - Authenticate with default DES key
+                 * - on success change the key to default AES key
+                 *
+                 * If "change key type to DES" is checked:
+                 * - Select Master Application
+                 * - Authenticate with default AES key
+                 * - on success change the key to default DES key
+                 */
+
+                runChangeMasterKeys();
+
+/*
                 // try to read the version info, if this fails it might be a hce emulated desfire tag
                 try {
                     VersionInfo versionInfo = desfire.getVersion();
@@ -1519,6 +1627,8 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
                         Log.i(TAG, "response after selectHce: " + com.github.skjolber.desfire.ev1.model.command.Utils.getHexString(response));
                     }
                 }
+
+ */
             }
 
         } catch (IOException e) {

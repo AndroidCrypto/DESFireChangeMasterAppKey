@@ -1,4 +1,4 @@
-package de.androidcrypto.desfiretutorial;
+package de.androidcrypto.desfirechangemasterappkey;
 
 /***************************************************************************
  *
@@ -20,7 +20,7 @@ package de.androidcrypto.desfiretutorial;
  ****************************************************************************/
 
 
-import static de.androidcrypto.desfiretutorial.Utils.byteToHex;
+import static de.androidcrypto.desfirechangemasterappkey.Utils.byteToHex;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

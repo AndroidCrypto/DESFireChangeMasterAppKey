@@ -1,4 +1,4 @@
-package de.androidcrypto.desfiretutorial;
+package de.androidcrypto.desfirechangemasterappkey;
 
 /**
  * This class generates the payload for commands on Mifare DESFire EV1/2/3 cards

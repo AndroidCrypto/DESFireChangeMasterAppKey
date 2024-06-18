@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.github.skjolber.desfire.ev1.model.command.IsoDepWrapper;
 
-import de.androidcrypto.desfiretutorial.Utils;
+import de.androidcrypto.desfirechangemasterappkey.Utils;
 
 public class DESFireAdapter {
 
