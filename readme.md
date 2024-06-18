@@ -1,8 +1,4 @@
-# Mifare DESFire Change Master Application Key to AES or DES using NFCjLib library
-
-This app is using the NFCjLib library from **Desfire Tools for Android** available on GitHub here:
-https://github.com/skjolber/desfire-tools-for-android. It was written by Thomas Skjølberg ("skjolber") and this one is the best available source for accessing 
-NXP's Mifare DESFire tags on Java so far. 
+# Mifare DESFire Change Master Application Key to AES or DES or vice versa using NFCjLib library
 
 This app has a very limited purpose: it can **change a Default DES Master Application Key to a Default AES Master Application Key and vice versa only**.
 A functionality like this can be useful if you are working with other Mifare DESFire libraries that are only able to work with AES keys.
@@ -12,7 +8,7 @@ A Mifare DESFire EVx tag has a fabric setting with a Master Application Key of D
 Defaut DES key: 00 00 00 00 00 00 00 00
 ```
 
-For changing of this key you need to authenticate with this key first and then run the changeKey method on the tag. As this command is working with 
+For changing this key you need to authenticate with this key first and then run the changeKey method on the tag. As this command is working with 
 encrypted data I'm using the Desfire Tools for Android library for these tasks. The Default AES Key is 16 bytes long and filled with (hex) 0x00:
 
 ```plaintext
