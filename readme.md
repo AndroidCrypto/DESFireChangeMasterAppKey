@@ -1,4 +1,4 @@
-# Mifare DESFire Change Master Application Key to DES or AES using NFCjLib library
+# Mifare DESFire Change Master Application Key to AES or DES using NFCjLib library
 
 This app is using the NFCjLib library from **Desfire Tools for Android** available on GitHub here:
 https://github.com/skjolber/desfire-tools-for-android. It was written by Thomas Skjølberg ("skjolber") and this one is the best available source for accessing 
@@ -13,7 +13,7 @@ Defaut DES key: 00 00 00 00 00 00 00 00
 ```
 
 For changing of this key you need to authenticate with this key first and then run the changeKey method on the tag. As this command is working with 
-encrypted data I'm using the Desfire Tools for Android library for these tasks. The Default AES Key is 16 bytes long and filled with (hex) 0x00
+encrypted data I'm using the Desfire Tools for Android library for these tasks. The Default AES Key is 16 bytes long and filled with (hex) 0x00:
 
 ```plaintext
 Defaut AES key: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
