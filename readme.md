@@ -31,7 +31,7 @@ Android 8, 9 and 13 with real devices).
 Some notes on typical sessions with the card: I recommend that you lay your phone on the tag and after the connection don't move the phone to hold the 
 connection.
 
-The usage of the app is described in an article I published on medium.com: n.a.
+The usage of the app is described in an article I published on medium.com: https://medium.com/@androidcrypto/mifare-desfire-evx-nfc-tag-change-the-master-application-key-from-des-to-aes-android-java-e5dcf02861ff
 
 ## Ready to use compiled and build debug app
 
